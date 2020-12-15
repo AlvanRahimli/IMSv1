@@ -1,0 +1,80 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using IMSv1.Models
+@model IMSv1.Models.Dtos.ATITransactionDto
+
+@{
+    ViewData["products_active"] = "active";
+    ViewBag.Title = "Yeni Məhsul Əlavə Edin";
+    Layout = "_Layout";
+    var products = ViewData["products"] as List<Product>;
+}
+
+<h2>Yeni Məhsul Əlavə Edin</h2>
+<form method="post" asp-action="PostProduct" asp-controller="Products">
+    <div class="row">
+        <!-- CONTENT -->
+        <div class="col-6">
+            <div class="form-group">
+                <label for="desc">Köçürmə haqqında</label>
+                <input type="text" id="desc" asp-for="Description"
+                       class="form-control" placeholder="Köçürmə haqqında">
+            </div>
+            
+            <div class="form-group">
+                <label for="pId">Məhsul</label>
+                <select id="pId" asp-for="Content.ProductId" class="form-control">
+                    <option value="-1">Yeni Məhsul</option>
+                    @if (products != null)
+                    {
+                        @foreach (var p in products)
+                        {
+                            <option value="@p.Id">@p.Name (Anbarda: @p.StockCount ədəd)</option>
+                        }
+                    }
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label for="pName">Məhsulun adı</label>
+                <input type="text" id="pName" placeholder="Adı daxil edin" asp-for="Content.Name" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="pPack">Qablaşdırma</label>
+                <input type="text" id="pPack" asp-for="Content.Packaging" class="form-control" placeholder="Qablaşdırma">
+            </div>
+
+            <div class="form-group">
+                <label for="pCount">Sayı</label>
+                <input type="number" id="pCount" value="1" asp-for="Content.Count" class="form-control">
+            </div>
+
+            <div class="row">
+                <div class="form-group col-6">
+                    <label for="pProdPrice">Alış qiyməti (qəpiklə)</label>
+                    <input type="number" id="pProdPrice" value="0" asp-for="Content.ProductionPrice" class="form-control">
+                </div>
+                <div class="form-group col-6">
+                    <label for="pSalePrice">Satış qiyməti (qəpiklə)</label>
+                    <input type="number" id="pSalePrice" value="0" asp-for="Content.SalePrice" class="form-control">
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="form-group col-6">
+                    <label for="pProdDate">İstehsal tarixi</label>
+                    <input type="date" id="pProdDate" asp-for="Content.ProductionDate" class="form-control">
+                </div>
+
+                <div class="form-group col-6">
+                    <label for="pExpDate">Son istifadə tarixi</label>
+                    <input type="date" id="pExpDate" asp-for="Content.ExpirationDate" class="form-control">
+                </div>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Əlavə et">
+
+        </div>
+    </div>
+</form>

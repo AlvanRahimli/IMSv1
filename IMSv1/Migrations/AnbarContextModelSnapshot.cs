@@ -17,11 +17,45 @@ namespace IMSv1.Migrations
                 .HasAnnotation("ProductVersion", "3.1.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("IMSv1.Models.Price", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("AdditionDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Prices");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AdditionDate = new DateTime(2020, 12, 5, 21, 31, 58, 406, DateTimeKind.Local).AddTicks(163),
+                            ProductId = 1,
+                            Value = 150
+                        });
+                });
+
             modelBuilder.Entity("IMSv1.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -32,6 +66,12 @@ namespace IMSv1.Migrations
                     b.Property<string>("Packaging")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<DateTime>("ProductionDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("SalePrice")
+                        .HasColumnType("int");
+
                     b.Property<int>("StockCount")
                         .HasColumnType("int");
 
@@ -40,6 +80,19 @@ namespace IMSv1.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ExpirationDate = new DateTime(2020, 12, 10, 21, 31, 58, 401, DateTimeKind.Local).AddTicks(3764),
+                            Name = "prod 1",
+                            OwnerId = 1,
+                            Packaging = "150 qram",
+                            ProductionDate = new DateTime(2020, 11, 30, 21, 31, 58, 405, DateTimeKind.Local).AddTicks(6416),
+                            SalePrice = 120,
+                            StockCount = 100
+                        });
                 });
 
             modelBuilder.Entity("IMSv1.Models.Transaction", b =>
@@ -55,9 +108,6 @@ namespace IMSv1.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<int>("FromId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<int>("ToId")
@@ -89,15 +139,6 @@ namespace IMSv1.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ExpirationDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("ProductionDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("PurchasePrice")
-                        .HasColumnType("int");
-
                     b.Property<int>("SalePrice")
                         .HasColumnType("int");
 
@@ -114,8 +155,11 @@ namespace IMSv1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("Debt")
-                        .HasColumnType("int");
+                    b.Property<string>("Contact")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("District")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -129,6 +173,59 @@ namespace IMSv1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Contact = "alvanrahimli@gmail.com",
+                            District = "Lerik",
+                            Name = "alvan",
+                            Password = "alvan12345",
+                            Role = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Contact = "051 510 12 43",
+                            District = "Baki",
+                            Name = "ali",
+                            Password = "ali12345",
+                            Role = 1
+                        });
+                });
+
+            modelBuilder.Entity("IMSv1.Models.UserClient", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClientName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("Debt")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastSaleDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("UserId", "ClientId");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("UserClients");
+                });
+
+            modelBuilder.Entity("IMSv1.Models.Price", b =>
+                {
+                    b.HasOne("IMSv1.Models.Product", "Product")
+                        .WithMany("ProductionPrices")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IMSv1.Models.Product", b =>
@@ -166,6 +263,21 @@ namespace IMSv1.Migrations
                     b.HasOne("IMSv1.Models.Transaction", "Transaction")
                         .WithMany("Content")
                         .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IMSv1.Models.UserClient", b =>
+                {
+                    b.HasOne("IMSv1.Models.User", "Client")
+                        .WithMany("IsClientOf")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IMSv1.Models.User", "User")
+                        .WithMany("Clients")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -15,7 +15,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Views" />
+      <Folder Include="wwwroot\images" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Pages\Home\Index.cshtml" />
     </ItemGroup>
 
 </Project>

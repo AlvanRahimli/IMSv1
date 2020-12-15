@@ -1,0 +1,48 @@
+@using IMSv1.Extensions
+@using IMSv1.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model List<IMSv1.Models.Transaction>
+
+@{
+    ViewBag.Title = "Satışlar";
+    Layout = "_Layout";
+    ViewData["transactions_active"] = "active";
+    var counter = 1;
+    var userId = HttpContextAccessor.HttpContext.GetUserId();
+}
+
+<div style="float: right">
+    <a class="btn btn-secondary" 
+       asp-action="PostTransaction">&plus; Yeni Satış</a>
+</div>
+<h2>Satışlar</h2>
+
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th scope="col">#</th> 
+        <th scope="col">Haqqında</th> 
+        <th scope="col">Yekun məbləğ</th>
+        <th scope="col">Tarix</th> 
+        <th scope="col">Tip</th>
+        <th scope="col">Kimdən</th> 
+        <th scope="col">Kimə</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var t in Model)
+    {
+        <tr>
+            <th>@counter</th>
+            <td><a asp-action="GetTransaction" asp-route-tId="@t.Id">@t.Description</a></td>
+            <td>@((decimal)t.TotalAmount / 100) &#8380;</td>
+            <td>@t.Date.ToString("dd MMM yyyy")</td>
+            <td>@(t.Type == TransactionType.Addition ? "Anbara əlavə" : "Satış")</td>
+            <td><a href="/Clients/@t.FromId">@t.From.Name</a></td>
+            <td><a href="/Clients/@t.FromId">@t.To.Name</a></td>
+        </tr>
+        counter++;
+    }
+    </tbody>
+</table>

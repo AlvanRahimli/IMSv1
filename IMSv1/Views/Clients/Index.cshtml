@@ -1,0 +1,42 @@
+@model List<IMSv1.Models.UserClient>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewBag.Title = "Müştərilər";
+    Layout = "_Layout";
+    var counter = 1;
+    ViewData["clients_active"] = "active";
+}
+
+<h2>Müştərilər</h2>
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Müştəri adı</th>
+        <th>Müştərinin borcu</th>
+        <th>Son satış tarixi</th>
+        <th>Ödəniş əlavə et</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var client in Model)
+    {
+        <tr>
+            <th>@counter</th>
+            <td>@client.Client.Name</td>
+            <td>@((decimal)client.Debt / 100) &#8380;</td>
+            <td>@client.LastSaleDate.ToString("dd MMM yyyy")</td>
+            <td>
+                <form method="post" asp-action="AddPayment" asp-controller="Clients"
+                      asp-route-clientId="@client.ClientId"
+                      onsubmit="return confirm('Əməliyyatı həyata keçirmək istədiyinizə əminsinizmi?')">
+                    <input type="number" name="amount" placeholder="Qəpiklə yazın">
+                    <input type="submit" value="&raquo;">
+                </form>
+            </td>
+        </tr>
+        counter++;
+    }
+    </tbody>
+</table>

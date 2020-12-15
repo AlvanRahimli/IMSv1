@@ -11,7 +11,6 @@ namespace IMSv1.Models
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public TransactionType Type { get; set; }
-        public TransactionStatus Status { get; set; }
 
         public List<Transaction_Product> Content { get; set; }
         

@@ -1,0 +1,24 @@
+@model IMSv1.Models.Dtos.UserLoginDto
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "_Layout";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+<form method="post" asp-controller="Auth" aso-action="Login" style="width: 30%">
+    <div class="form-group">
+        <label for="inputEmail">Adınız</label>
+        <input type="text" class="form-control" name="Name"
+               id="inputEmail" aria-describedby="emailHelp" 
+               placeholder="Adınızı daxil edin">
+    </div>
+    <div class="form-group">
+        <label for="inputPassword">Şifrəniz</label>
+        <input type="password" class="form-control" name="Password"
+               id="inputPassword" placeholder="Şifrənizi daxil edin">
+    </div>
+    <button type="submit" class="btn btn-primary">Daxil ol</button>
+</form>

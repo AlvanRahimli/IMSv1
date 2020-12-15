@@ -1,0 +1,34 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model List<IMSv1.Models.Product>
+
+@{
+    ViewBag.Title = "Anbar";
+    Layout = "_Layout";
+    var counter = 1;
+}
+
+<h2>Anbar</h2>
+
+<table class="table table-striped customList table-bordered">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Malın Adı</th>
+        <th scope="col">Miqdarı</th>
+        <th scope="col">Qablaşma</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var p in Model)
+    {
+        <tr>
+            <th scope="row">@counter</th>
+            <td><a asp-action="Details" asp-controller="Products">@p.Name</a></td>
+            <td>@p.StockCount</td>
+            <td>@p.Packaging</td>
+        </tr>
+        counter++;
+    }
+    </tbody>
+</table>

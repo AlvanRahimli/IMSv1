@@ -1,0 +1,82 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@model List<IMSv1.Models.Product>
+
+@{
+    ViewBag.Title = "Məhsullar";
+    ViewData["products_active"] = "active";
+    Layout = "_Layout";
+    var counter = 1;
+}
+<div style="float: right">
+    <a class="btn btn-secondary" 
+       href="/Products/PostProduct">&plus; Yeni Məhsul</a>
+</div>
+<h2>Məhsullar</h2>
+
+<table class="table table-striped customList table-bordered">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Malın Adı</th>
+        <th scope="col">Anbarda Miqdarı</th>
+        <th scope="col">Alış Qiymətləri</th>
+        <th scope="col">Cəmi</th>
+        <th scope="col">Satış Qiyməti</th>
+        <th scope="col">Cəmi</th>
+        <th scope="col">Son istifadə tarixi</th>
+        @if (HttpContextAccessor.HttpContext.User.IsInRole("Manager"))
+        {
+            <th scope="col">Əməliyyatlar</th>
+        }
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var p in Model)
+    {
+        <tr>
+            <th scope="row">@counter</th>
+            <td><a asp-action="Details" asp-controller="Products">@p.Name</a></td>
+            <td>@p.StockCount</td>
+            <td>
+                <select>
+                    @if (p.ProductionPrices.Count == 0)
+                    {
+                        <option value="-1">Qiymət yoxdur</option>
+                    }
+                    @foreach (var price in p.ProductionPrices)
+                    {
+                        <option value="@price.Id">
+                            @((decimal)price.Value / 100)&#8380; (@price.AdditionDate.ToString("dd MMM yyyy"))
+                        </option>
+                    }
+                </select>
+            </td>
+            <td>@((decimal)(p.ProductionPrices.OrderByDescending(pr => pr.AdditionDate).ToList()[0].Value)/100 * p.StockCount) &#8380;</td>
+            <td>@p.SalePriceFormatted &#8380;</td>
+            <td>@p.TotalSalePrice &#8380;</td>
+            <td>@p.ExpirationDate.ToString("dd MMMM yyyy")</td>
+            @{
+                if (HttpContextAccessor.HttpContext.User.IsInRole("Manager"))
+                {
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" style="font-size: small"
+                                    type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false"> Seçin &#9660;
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="/Products/GetDelete/@p.Id">Sil</a>
+                                <a class="dropdown-item" href="/Products/Edit/@p.Id">Düzəliş et</a>
+                            </div>
+                        </div>
+                    </td>
+                }
+            }
+            
+        </tr>
+        counter++;
+    }
+    </tbody>
+</table>

@@ -1,0 +1,62 @@
+@using IMSv1.Models
+@model IMSv1.Models.Transaction
+
+@{
+    ViewBag.Title = "Satış Detalları";
+    Layout = "_Layout";
+    var counter = 1;
+    ViewData["transactions_active"] = "active";
+}
+
+<h2>Satış Detalları</h2>
+<hr>
+<h3>@Model.Description</h3>
+<table class="table table-bordered table-striped" style="width: 450px">
+    <tbody>
+    <tr>
+        <td>Satış tarixi:</td>
+        <td>@Model.Date.ToString("dd MMMM yyyy")</td>
+    </tr>
+    <tr>
+        <td>Yekun məbləğ:</td>
+        <td>@((decimal)Model.TotalAmount / 100) &#8380;</td>
+    </tr>
+    <tr>
+        <td>Kimdən: </td>
+        <td>@Model.From.Name</td>
+    </tr>
+    <tr>
+        <td>Kimə: </td>
+        <td>@Model.To.Name</td>
+    </tr>
+    <tr>
+        <td>Tip: </td>
+        <td>@(Model.Type == TransactionType.Sale ? "Satış" : "Anbara mədaxil")</td>
+    </tr>
+    </tbody>
+    
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Malın Adı</th>
+            <th scope="col">Bir ədədin qiyməti</th>
+            <th scope="col">Sayı</th>
+            <th scope="col">Cəmi</th>
+        </tr>
+        </thead>
+        <thead>
+        @foreach (var p in Model.Content)
+        {
+            <tr>
+                <td>@counter</td>
+                <td>@p.Product.Name</td>
+                <td>@((decimal) p.SalePrice / 100) &#8380</td>
+                <td>@p.Count</td>
+                <td>@((decimal) (p.Count * p.SalePrice) / 100)</td>
+            </tr>
+            counter++;
+        }
+        </thead>
+    </table>
+</table>

@@ -1,0 +1,10 @@
+@using System.Security.Claims
+@model IMSv1.Models.User
+
+@{
+    ViewBag.Title = "Profil";
+    Layout = "_Layout";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>@Model.Name VS VS @User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value</p>

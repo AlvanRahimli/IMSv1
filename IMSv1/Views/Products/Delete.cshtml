@@ -1,0 +1,26 @@
+@model IMSv1.Models.Product
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewBag.Title = "Məhsullar";
+    Layout = "_Layout";
+}
+
+<h2>Silmək istəyirsinizmi?</h2>
+
+<p>@Model.Name məhsulunu silmək istədiyinizə əminsinizmi?</p>
+<div class="row" style="width: 30%">
+    <div class="col-6">
+        <form method="post" asp-action="PostDelete">
+            <input type="hidden" value="@Model.Id" name="id">
+            <button type="submit" class="btn btn-danger">
+                Bəli, silinsin
+            </button>
+        </form>
+    </div>
+    <div class="col-6">
+        <a asp-action="Index" class="btn btn-primary">
+            Xeyr, geri qayıdın
+        </a>
+    </div>
+</div>

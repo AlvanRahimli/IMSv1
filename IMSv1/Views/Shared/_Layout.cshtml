@@ -1,0 +1,100 @@
+@using IMSv1.Extensions
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!doctype html>
+<html lang="en">
+<head>
+    <title>IMS v1</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/custom.css">
+</head>
+<body>
+<div class="wrapper d-flex align-items-stretch">
+    <nav id="sidebar" class="">
+        <div class="custom-menu">
+            <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                <i class="fa fa-bars" style="margin-left: -5px;"></i>
+                <span class="sr-only">Toggle Menu</span>
+            </button>
+        </div>
+        <div class="p-4">
+            <h1>
+                <a asp-controller="Home" asp-action="Index" class="logo">IMS v1</a>
+            </h1>
+            <ul class="list-unstyled components mb-5">
+                <li class="@ViewData["home_active"]">
+                    <a asp-controller="Home" asp-action="Index"><span class="fa fa-home mr-3"></span> Ana səhifə</a>
+                </li>
+                <li class="@ViewData["products_active"]">
+                    <a asp-controller="Products" asp-action="Index"><span class="fa fa-tag mr-3"></span> Məhsullar</a>
+                </li>
+                <li class="@ViewData["transactions_active"]">
+                    <a asp-controller="Transactions" asp-action="Index"><span class="fa fa-shopping-cart mr-3"></span> Satışlar</a>
+                </li>
+                <li class="@ViewData["clients_active"]">
+                    <a asp-controller="Clients" asp-action="Index"><span class="fa fa-users mr-3"></span> Müştərilər</a>
+                </li>
+                @{
+                    if (!HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+                    {
+                        <li class="@ViewData["login_active"]">
+                            <a asp-controller="Auth" asp-action="Login"><span class="fa fa-user-circle mr-3"></span> Daxil olun</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="@ViewData["logout_active"]">
+                            <a asp-controller="Auth" asp-action="Logout">
+                                <span class="fa fa-power-off mr-3"></span> Çıxış edin (@HttpContextAccessor.HttpContext.GetUserName())
+                            </a>
+                        </li>
+                    }
+                }
+                <li class="@ViewData["about_active"]">
+                    <a asp-controller="Home" asp-action="About"><span class="fa fa-info mr-3"></span> Haqqımızda</a>
+                </li>
+            </ul>
+
+            <div class="mb-5">
+                <h3 class="h6 mb-3">İstifadə etdiyiniz üçün təşəkkür edirik</h3>
+                @* <form action="#" class="subscribe-form"> *@
+                @*     <div class="form-group d-flex"> *@
+                @*         <div class="icon"> *@
+                @*             <span class="icon-paper-plane"></span> *@
+                @*         </div> *@
+                @*         <input type="text" class="form-control" placeholder="Email ünvanınızı daxil edin"> *@
+                @*     </div> *@
+                @* </form> *@
+            </div>
+
+            <div class="footer">
+                <p>
+                    Copyright &copy;<script>document.write(new Date().getFullYear().toString());</script> All rights reserved | Built with &hearts; by 
+                    <a href="https://facebook.com/alvan.rahimli" style="color: white">Alvan&nbsp;Rahimli</a>
+                </p>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Page Content  -->
+    <div id="content" class="p-4 p-md-5 pt-5">
+        @RenderBody()
+    </div>
+</div>
+
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/popper.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/main.js"></script>
+@(await RenderSectionAsync("Scripts", false))
+</body>
+</html>

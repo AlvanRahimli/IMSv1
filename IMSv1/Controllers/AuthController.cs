@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IMSv1.Controllers
 {
-    [Route("[controller]")]
     public class AuthController : Controller
     {
         private readonly IAuthRepository _repo;
@@ -39,6 +38,7 @@ namespace IMSv1.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Role, user.Role.ToString())
             };
             var claimsIdentity = new ClaimsIdentity(
@@ -46,7 +46,7 @@ namespace IMSv1.Controllers
             var authProperties = new AuthenticationProperties
             {
                 AllowRefresh = true,
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30),
+                ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1),
                 IsPersistent = true,
                 IssuedUtc = DateTimeOffset.Now
             };
@@ -56,6 +56,19 @@ namespace IMSv1.Controllers
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
             return View("Profile", user);
+        }
+
+        [HttpGet]
+        public IActionResult Profile()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

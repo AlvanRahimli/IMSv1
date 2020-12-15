@@ -1,0 +1,94 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using IMSv1.Models
+@using IMSv1.Models.Dtos
+@model IMSv1.Models.Dtos.NSTransactionDto
+
+@{
+    ViewBag.Title = "Yeni Satış";
+    Layout = "_Layout";
+
+    ViewData["transactions_active"] = "active";
+    var users = ViewData["users"] as List<ClientDto>;
+    var products = ViewData["products"] as List<Product>;
+}
+
+<h2>Yeni Satış</h2>
+
+<form method="post" asp-action="PostTransaction"
+      onsubmit="return confirm('Əməliyyatı həyata keçirmək istədiyinizə əminsinizmi?')">
+    <div class="row">
+        <div class="col-6">
+            <h3>Detallar</h3>
+            <div class="form-group">
+                <label for="desc">Satış haqqında</label>
+                <input id="desc" asp-for="Description" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="client">Müştəri</label>
+                <select id="client" asp-for="ClientId" class="form-control">
+                    <option value="0">Yeni Müştəri</option>
+                    @if (users != null)
+                    {
+                        @foreach (var u in users)
+                        {
+                            <option value="@u.Id">@u.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group" id="nameDiv" style="display: block">
+                <label for="clientName">Müştəri adı</label>
+                <input id="clientName" asp-for="ClientName" class="form-control">
+            </div>
+            <hr>
+            <input type="submit" value="&#10004; Satışı təstiqlə" class="btn btn-primary">
+        </div>
+        <div class="col-6">
+            <h3>Satılan məhsullar</h3>
+            <div id="productsList">
+                <div id="productCard">
+                    <div class="card" style="margin-top: 20px;">
+                        <div class="card-header">
+                            <h5 style="display: inline">Məhsul</h5>
+                            <button type="button" id="delete_btn" class="close" onclick="deleteCard(0)">&times;</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <select id="productId" asp-for="Content[0].ProductId" class="form-control">
+                                    <option value="0">Məhsul seçin</option>
+                                    @if (products != null)
+                                    {
+                                        @foreach (var p in products)
+                                        {
+                                            <option value="@p.Id">@p.Name - (@p.SalePriceFormatted &#8380;) @p.StockCount ədəd</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label for="productCount">Sayı</label>
+                                    <input id="productCount" type="number" class="form-control"
+                                           asp-for="Content[0].Count">
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="productPrice">Qiymət <strong>(qəpiklə)</strong></label>
+                                    <input id="productPrice" type="number" class="form-control"
+                                           asp-for="Content[0].SalePrice">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button onclick="newProduct(1)" class="btn btn-secondary" style="margin-top: 10px; width: 100%;"
+                    type="button" id="newProductBtn">&plus; Yeni Məhsul</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts
+{
+    <script src="~/js/sale.js"></script>
+}
