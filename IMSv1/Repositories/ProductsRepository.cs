@@ -60,6 +60,9 @@ namespace IMSv1.Repositories
             if (user == null)
                 return false;
 
+            var price = (int) (tATITransactionDto.Content.ProductionPrice * 100);
+            var salePrice = (int) (tATITransactionDto.Content.SalePrice * 100);
+
             var transaction = new Transaction
             {
                 Date = DateTime.Now,
@@ -67,7 +70,7 @@ namespace IMSv1.Repositories
                 FromId = userId,
                 ToId = userId,
                 Type = TransactionType.Addition,
-                TotalAmount = tATITransactionDto.Content.Count * tATITransactionDto.Content.ProductionPrice
+                TotalAmount = tATITransactionDto.Content.Count * price
             };
 
             if (isNew)
@@ -78,21 +81,24 @@ namespace IMSv1.Repositories
                     Packaging = tATITransactionDto.Content.Packaging,
                     ExpirationDate = tATITransactionDto.Content.ExpirationDate,
                     ProductionDate = tATITransactionDto.Content.ProductionDate,
-                    SalePrice = tATITransactionDto.Content.SalePrice,
+                    SalePrice = salePrice,
                     StockCount = tATITransactionDto.Content.Count,
                     OwnerId = userId,
-                    ProductionPrices = new[] {new Price
+                    ProductionPrices = new List<Price>
                     {
-                        Value = tATITransactionDto.Content.ProductionPrice,
-                        AdditionDate = DateTime.Now
-                    } }.ToList()
+                        new Price
+                        {
+                            Value = price,
+                            AdditionDate = DateTime.Now
+                        }
+                    }
                 };
                 var transactionProduct = new Transaction_Product
                 {
                     Transaction = transaction,
                     Product = product,
                     Count = tATITransactionDto.Content.Count,
-                    SalePrice = tATITransactionDto.Content.SalePrice
+                    SalePrice = salePrice
                 };
 
                 await _context.TransactionProducts.AddAsync(transactionProduct);
@@ -105,7 +111,7 @@ namespace IMSv1.Repositories
                     Transaction = transaction,
                     ProductId = tATITransactionDto.Content.ProductId,
                     Count = tATITransactionDto.Content.Count,
-                    SalePrice = tATITransactionDto.Content.SalePrice
+                    SalePrice = salePrice
                 };
 
                 var product = await _context.Products
@@ -115,7 +121,7 @@ namespace IMSv1.Repositories
                 product.ProductionPrices.Add(new Price()
                 {
                     ProductId = product.Id,
-                    Value = tATITransactionDto.Content.ProductionPrice,
+                    Value = price,
                     AdditionDate = DateTime.Now
                 });
 
@@ -138,6 +144,29 @@ namespace IMSv1.Repositories
             {
                 _context.Products.Remove(product);
             }
+
+            var dbRes = await _context.SaveChangesAsync();
+            return dbRes > 0;
+        }
+
+        public async Task<bool> UpdateProduct(int userId, Product input)
+        {
+            var product = await _context.Products
+                .Include(p => p.ProductionPrices)
+                .FirstOrDefaultAsync(p => p.Id == input.Id && p.OwnerId == userId);
+
+            product.Name = input.Name;
+            product.Packaging = input.Packaging;
+            product.StockCount = input.StockCount;
+            product.ExpirationDate = input.ExpirationDate;
+            product.ProductionDate = input.ProductionDate;
+            product.SalePrice = input.SalePrice;
+            product.ProductionPrices.Add(new Price
+            {
+                Value = input.ProductionPrices[0].Value,
+                AdditionDate = DateTime.Now,
+                ProductId = product.Id
+            });
 
             var dbRes = await _context.SaveChangesAsync();
             return dbRes > 0;

@@ -1,5 +1,7 @@
+using System;
 using System.Threading.Tasks;
 using IMSv1.Extensions;
+using IMSv1.Models;
 using IMSv1.Models.Dtos;
 using IMSv1.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -35,10 +37,10 @@ namespace IMSv1.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> PostProduct(ATITransactionDto @new)
+        public async Task<IActionResult> PostProduct(ATITransactionDto newTransaction)
         {
             var userId = HttpContext.GetUserId();
-            var isSuccess = await _repo.AddProduct(@new, userId, @new.Content.ProductId == -1);
+            var isSuccess = await _repo.AddProduct(newTransaction, userId, newTransaction.Content.ProductId == -1);
             if (isSuccess)
             {
                 return RedirectToAction("Index", "Products");
@@ -70,6 +72,31 @@ namespace IMSv1.Controllers
             var isSuccess = await _repo.DeleteProduct(id, userId);
             if (isSuccess)
                 return RedirectToAction("Success", "Home");
+
+            return RedirectToAction("Error", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateProduct(int id)
+        {
+            var userId = HttpContext.GetUserId();
+            var product = await _repo.GetProduct(id, userId);
+
+            Console.WriteLine(product.ProductionPrices.Count);
+            
+            return View(product);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateProduct(Product input)
+        {
+            var userId = HttpContext.GetUserId();
+            var succeeded = await _repo.UpdateProduct(userId, input);
+
+            if (succeeded)
+            {
+                return RedirectToAction("Success", "Home");
+            }
 
             return RedirectToAction("Error", "Home");
         }

@@ -39,6 +39,9 @@ namespace IMSv1.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
+
+            var userClient = await _usersRepository.GetClient(userId, transaction.ToId);
+            ViewData["client"] = userClient;
             return View("TransactionDetails", transaction);
         }
 
@@ -61,7 +64,9 @@ namespace IMSv1.Controllers
             var isSuccessful = await _repo.AddTransaction(newTransaction, userId);
 
             if (isSuccessful)
+            {
                 return RedirectToAction("Success", "Home");
+            }
 
             return RedirectToAction("Error", "Home");
         }

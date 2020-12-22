@@ -26,6 +26,7 @@ namespace IMSv1.Repositories
                 .Include(t => t.From)
                 .Include(t => t.To)
                 .Where(t => t.FromId == userId || t.ToId == userId)
+                .Where(t => t.Type == TransactionType.Sale)
                 .OrderByDescending(t => t.Date)
                 .ToListAsync();
             return transactions;
@@ -103,14 +104,14 @@ namespace IMSv1.Repositories
                 FromId = userId,
                 ToId = newTransaction.ClientId == 0 ? addedUserId : newTransaction.ClientId,
                 Type = TransactionType.Sale,
-                TotalAmount = newTransaction.Content.Sum(dto => dto.SalePrice * dto.Count),
+                TotalAmount = newTransaction.Content.Sum(dto => (int) (dto.SalePrice * 100) * dto.Count),
                 Content = newTransaction.Content
                     .Where(dto => dto != null)
                     .Select(dto => new Transaction_Product
                     {
                         ProductId = dto.ProductId,
                         Count = dto.Count,
-                        SalePrice = dto.SalePrice
+                        SalePrice = (int) (dto.SalePrice * 100)
                     }).ToList()
             };
 

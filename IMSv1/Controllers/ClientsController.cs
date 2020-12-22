@@ -25,12 +25,16 @@ namespace IMSv1.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPayment(int clientId, int amount)
+        public async Task<IActionResult> AddPayment(int clientId, decimal amount)
         {
+            amount *= 100;
+            var intAmount = (int) amount;
             var userId = HttpContext.GetUserId();
-            var res = await _repo.AddPayment(userId, clientId, amount);
+            var res = await _repo.AddPayment(userId, clientId, intAmount);
             if (res)
+            {
                 return RedirectToAction("Success", "Home");
+            }
 
             return RedirectToAction("Error", "Home");
         }

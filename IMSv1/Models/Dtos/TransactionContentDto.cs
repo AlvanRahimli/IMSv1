@@ -4,6 +4,6 @@ namespace IMSv1.Models.Dtos
     {
         public int ProductId { get; set; }
         public int Count { get; set; }
-        public int SalePrice { get; set; }
+        public decimal SalePrice { get; set; }
     }
 }

@@ -20,7 +20,7 @@
     <tr>
         <th scope="col">#</th>
         <th scope="col">Malın Adı</th>
-        <th scope="col">Anbarda Miqdarı</th>
+        <th scope="col">Miqdarı</th>
         <th scope="col">Alış Qiymətləri</th>
         <th scope="col">Cəmi</th>
         <th scope="col">Satış Qiyməti</th>
@@ -35,9 +35,14 @@
     <tbody>
     @foreach (var p in Model)
     {
-        <tr>
+        var css = string.Empty;
+        if ((p.ExpirationDate - DateTime.Now).TotalDays < 150)
+        {
+            css = "color: white; background-color: red";
+        }
+        <tr style="@css">
             <th scope="row">@counter</th>
-            <td><a asp-action="Details" asp-controller="Products">@p.Name</a></td>
+            <td>@p.Name</td>
             <td>@p.StockCount</td>
             <td>
                 <select>
@@ -68,7 +73,7 @@
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="/Products/GetDelete/@p.Id">Sil</a>
-                                <a class="dropdown-item" href="/Products/Edit/@p.Id">Düzəliş et</a>
+                                <a class="dropdown-item" asp-action="UpdateProduct" asp-route-id="@p.Id">Düzəliş et</a>
                             </div>
                         </div>
                     </td>

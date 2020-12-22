@@ -53,15 +53,14 @@
             <div class="row">
                 <div class="form-group col-6">
                     <label for="pProdPrice">Alış qiyməti (qəpiklə)</label>
-                    <input type="number" id="pProdPrice" value="0" asp-for="Content.ProductionPrice" class="form-control">
+                    <input type="number" step="0.1" id="pProdPrice" value="0" asp-for="Content.ProductionPrice" class="form-control">
                 </div>
                 <div class="form-group col-6">
                     <label for="pSalePrice">Satış qiyməti (qəpiklə)</label>
-                    <input type="number" id="pSalePrice" value="0" asp-for="Content.SalePrice" class="form-control">
+                    <input type="number" step="0.1" id="pSalePrice" value="0" asp-for="Content.SalePrice" class="form-control">
                 </div>
             </div>
-
-
+            
             <div class="row">
                 <div class="form-group col-6">
                     <label for="pProdDate">İstehsal tarixi</label>

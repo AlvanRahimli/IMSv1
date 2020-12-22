@@ -25,7 +25,6 @@
         <th scope="col">Haqqında</th> 
         <th scope="col">Yekun məbləğ</th>
         <th scope="col">Tarix</th> 
-        <th scope="col">Tip</th>
         <th scope="col">Kimdən</th> 
         <th scope="col">Kimə</th>
     </tr>
@@ -38,7 +37,6 @@
             <td><a asp-action="GetTransaction" asp-route-tId="@t.Id">@t.Description</a></td>
             <td>@((decimal)t.TotalAmount / 100) &#8380;</td>
             <td>@t.Date.ToString("dd MMM yyyy")</td>
-            <td>@(t.Type == TransactionType.Addition ? "Anbara əlavə" : "Satış")</td>
             <td><a href="/Clients/@t.FromId">@t.From.Name</a></td>
             <td><a href="/Clients/@t.FromId">@t.To.Name</a></td>
         </tr>

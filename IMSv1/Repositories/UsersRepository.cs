@@ -59,6 +59,15 @@ namespace IMSv1.Repositories
             
             return clients;
         }
+        
+        public async Task<UserClient> GetClient(int userId, int clientId)
+        {
+            var client = await _context.UserClients
+                .AsNoTracking()
+                .FirstOrDefaultAsync(uc => uc.UserId == userId && uc.ClientId == clientId);
+
+            return client;
+        }
 
         public async Task<bool> AddPayment(int userId, int clientId, int amount)
         {

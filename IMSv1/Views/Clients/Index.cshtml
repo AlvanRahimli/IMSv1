@@ -14,6 +14,8 @@
     <tr>
         <th>#</th>
         <th>Müştəri adı</th>
+        <th>Rayon</th>
+        <th>Telefon</th>
         <th>Müştərinin borcu</th>
         <th>Son satış tarixi</th>
         <th>Ödəniş əlavə et</th>
@@ -25,13 +27,15 @@
         <tr>
             <th>@counter</th>
             <td>@client.Client.Name</td>
+            <td>@client.Client.District</td>
+            <td>@client.Client.Contact</td>
             <td>@((decimal)client.Debt / 100) &#8380;</td>
             <td>@client.LastSaleDate.ToString("dd MMM yyyy")</td>
             <td>
                 <form method="post" asp-action="AddPayment" asp-controller="Clients"
                       asp-route-clientId="@client.ClientId"
                       onsubmit="return confirm('Əməliyyatı həyata keçirmək istədiyinizə əminsinizmi?')">
-                    <input type="number" name="amount" placeholder="Qəpiklə yazın">
+                    <input type="number" step="0.1" name="amount" placeholder="Daxil edin.">
                     <input type="submit" value="&raquo;">
                 </form>
             </td>

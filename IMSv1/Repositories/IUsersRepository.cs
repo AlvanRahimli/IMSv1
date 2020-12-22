@@ -11,6 +11,7 @@ namespace IMSv1.Repositories
         Task<List<ClientDto>> GetUsers(int id);
         Task<int> AddUser(User input);
         Task<List<UserClient>> GetClientsForUser(int userId);
+        Task<UserClient> GetClient(int userId, int clientId);
         Task<bool> AddPayment(int userId, int clientId, int amount);
     }
 }

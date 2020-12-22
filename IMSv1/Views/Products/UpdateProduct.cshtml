@@ -1,0 +1,59 @@
+@model IMSv1.Models.Product
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewBag.Title = "Düzəliş et";
+    Layout = "_Layout";
+}
+
+<h2>Düzəliş et</h2>
+
+<form method="post" asp-controller="Products" asp-action="UpdateProduct"
+      onsubmit="return confirm('Əməliyyatı həyata keçirmək istədiyinizə əminsinizmi?')">
+    <div class="form-group">
+        <label for="pName">Məhsul adı: </label>
+        <input id="pName" class="form-control" type="text" 
+               asp-for="Name" value="@Model.Name">
+    </div>
+    
+    <div class="form-group">
+        <label for="pPack">Qablaşma:</label>
+        <input type="text" class="form-control" id="pPack"
+               asp-for="Packaging" value="@Model.Packaging">
+    </div>
+    
+    <div class="form-group">
+        <label for="pCount">Miqdarı</label>
+        <input type="number" class="form-control" id="pCount"
+               asp-for="StockCount" value="@Model.StockCount">
+    </div>
+    
+    <div class="row">
+        <div class="form-group col-6">
+            <label for="pProdDate">İstehsal tarixi</label>
+            <input type="date" id="pProdDate" class="form-control"
+                   asp-for="ProductionDate" value="@Model.ProductionDate">
+        </div>
+    
+        <div class="form-group col-6">
+            <label for="pExpDate">Son istifadə tarixi</label>
+            <input type="date" id="pExpDate" class="form-control"
+                   asp-for="ExpirationDate" value="@Model.ExpirationDate">
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="form-group col-6">
+            <label for="pProdPrice">Alış qiyməti (qəpiklə)</label>
+            <input type="number" step="0.1" id="pProdPrice" class="form-control" 
+                   asp-for="ProductionPrices[0].Value" value="@Model.ProductionPrices[0].Value">
+        </div>
+        <div class="form-group col-6">
+            <label for="pSalePrice">Satış qiyməti (qəpiklə)</label>
+            <input type="number" step="0.1" id="pSalePrice" class="form-control" 
+                   asp-for="SalePrice" value="@Model.SalePrice">
+        </div>
+    </div>
+    
+    <input type="submit" value="Yadda saxla">
+</form>
