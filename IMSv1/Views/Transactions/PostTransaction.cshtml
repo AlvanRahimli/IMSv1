@@ -21,7 +21,8 @@
             <h3>Detallar</h3>
             <div class="form-group">
                 <label for="desc">Satış haqqında</label>
-                <input id="desc" asp-for="Description" class="form-control">
+                <input id="desc" asp-for="Description" class="form-control"
+                       value="@("Satış " + DateTime.Now.ToString("dd MMM yyyy"))">
             </div>
             <div class="form-group">
                 <label for="client">Müştəri</label>
@@ -36,9 +37,21 @@
                     }
                 </select>
             </div>
-            <div class="form-group" id="nameDiv" style="display: block">
-                <label for="clientName">Müştəri adı</label>
-                <input id="clientName" asp-for="ClientName" class="form-control">
+            <div id="nameDiv">
+                <div class="form-group" style="display: block">
+                    <label for="clientName">Müştəri adı</label>
+                    <input id="clientName" asp-for="ClientName" class="form-control">
+                </div>
+                <div class="row">
+                    <div class="col-6 form-group">
+                        <label for="clientDist">Rayon</label>
+                        <input type="text" asp-for="ClientDistrict" class="form-control" id="clientDist">
+                    </div>
+                    <div class="col-6 form-group">
+                        <label for="clientContact">Əlaqə</label>
+                        <input type="text" asp-for="ClientPhone" class="form-control" id="clientContact">
+                    </div>
+                </div>
             </div>
             <hr>
             <input type="submit" value="&#10004; Satışı təstiqlə" class="btn btn-primary">

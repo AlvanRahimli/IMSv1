@@ -59,8 +59,8 @@ namespace IMSv1.Repositories
                 var newUser = new User
                 {
                     Name = newTransaction.ClientName,
-                    District = "N/A",
-                    Contact = "N/A",
+                    District = newTransaction.ClientDistrict,
+                    Contact = newTransaction.ClientPhone,
                     Password = "12345",
                     Role = Role.User
                 };
@@ -96,7 +96,7 @@ namespace IMSv1.Repositories
                 await _context.UserClients.AddAsync(newClient);
                 await _context.SaveChangesAsync();
             }
-            
+
             var transaction = new Transaction
             {
                 Description = newTransaction.Description,

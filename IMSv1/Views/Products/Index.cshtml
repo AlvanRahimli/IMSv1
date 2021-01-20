@@ -62,24 +62,18 @@
             <td>@p.SalePriceFormatted &#8380;</td>
             <td>@p.TotalSalePrice &#8380;</td>
             <td>@p.ExpirationDate.ToString("dd MMMM yyyy")</td>
-            @{
-                if (HttpContextAccessor.HttpContext.User.IsInRole("Manager"))
-                {
-                    <td>
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" style="font-size: small"
-                                    type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false"> Seçin &#9660;
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="/Products/GetDelete/@p.Id">Sil</a>
-                                <a class="dropdown-item" asp-action="UpdateProduct" asp-route-id="@p.Id">Düzəliş et</a>
-                            </div>
-                        </div>
-                    </td>
-                }
-            }
-            
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" style="font-size: small"
+                            type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false"> Seçin &#9660;
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="/Products/GetDelete/@p.Id">Sil</a>
+                        <a class="dropdown-item" asp-action="UpdateProduct" asp-route-id="@p.Id">Düzəliş et</a>
+                    </div>
+                </div>
+            </td>
         </tr>
         counter++;
     }

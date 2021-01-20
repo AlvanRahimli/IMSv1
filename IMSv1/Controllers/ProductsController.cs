@@ -82,13 +82,24 @@ namespace IMSv1.Controllers
             var userId = HttpContext.GetUserId();
             var product = await _repo.GetProduct(id, userId);
 
-            Console.WriteLine(product.ProductionPrices.Count);
+            var pr = new ProductUpdateDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Packaging = product.Packaging,
+                ExpirationDate = product.ExpirationDate,
+                ProductionDate = product.ProductionDate,
+                ProductionPrices = product.ProductionPrices,
+                SalePrice = (decimal)product.SalePrice / 100,
+                StockCount = product.StockCount,
+                OwnerId = product.OwnerId
+            };
             
-            return View(product);
+            return View(pr);
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateProduct(Product input)
+        public async Task<IActionResult> UpdateProduct(ProductUpdateDto input)
         {
             var userId = HttpContext.GetUserId();
             var succeeded = await _repo.UpdateProduct(userId, input);

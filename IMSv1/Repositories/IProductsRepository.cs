@@ -11,6 +11,6 @@ namespace IMSv1.Repositories
         Task<Product> GetProduct(int id, int userId);
         Task<bool> AddProduct(ATITransactionDto tATITransactionDto, int userId, bool isNew);
         Task<bool> DeleteProduct(int id, int userId);
-        Task<bool> UpdateProduct(int userId, Product input);
+        Task<bool> UpdateProduct(int userId, ProductUpdateDto input);
     }
 }

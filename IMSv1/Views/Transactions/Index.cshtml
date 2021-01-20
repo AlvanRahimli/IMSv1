@@ -21,12 +21,13 @@
 <table class="table table-striped table-bordered">
     <thead>
     <tr>
-        <th scope="col">#</th> 
-        <th scope="col">Haqqında</th> 
-        <th scope="col">Yekun məbləğ</th>
-        <th scope="col">Tarix</th> 
-        <th scope="col">Kimdən</th> 
+        <th scope="col">#</th>
         <th scope="col">Kimə</th>
+        <th scope="col">Kimdən</th>
+        <th scope="col">Yekun məbləğ</th>
+        <th scope="col">Tarix</th>
+        <th scope="col">Haqqında</th>
+        <th scope="col">Əməliyyat</th>
     </tr>
     </thead>
     <tbody>
@@ -34,11 +35,12 @@
     {
         <tr>
             <th>@counter</th>
-            <td><a asp-action="GetTransaction" asp-route-tId="@t.Id">@t.Description</a></td>
+            <td><a href="/Clients/@t.ToId">@t.To.Name</a></td>
+            <td><a href="/Clients/@t.FromId">@t.From.Name</a></td>
             <td>@((decimal)t.TotalAmount / 100) &#8380;</td>
             <td>@t.Date.ToString("dd MMM yyyy")</td>
-            <td><a href="/Clients/@t.FromId">@t.From.Name</a></td>
-            <td><a href="/Clients/@t.FromId">@t.To.Name</a></td>
+            <td><a asp-action="GetTransaction" asp-route-tId="@t.Id">@t.Description</a></td>
+            <td><a asp-action="GetTransaction" asp-route-tId="@t.Id">Keçid >></a></td>
         </tr>
         counter++;
     }

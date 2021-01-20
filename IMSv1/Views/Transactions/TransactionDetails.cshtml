@@ -7,6 +7,7 @@
     ViewData["transactions_active"] = "active";
     var client = ViewData["client"] as UserClient ?? new UserClient();
 }
+<a onclick="window.print()" class="btn btn-link">Çap et</a>
 <div style="text-align: center">
     <h2>SATIŞ</h2>
     <br>
@@ -55,7 +56,7 @@
 <br>
 <br>
 <div style="font-family: 'Times New Roman',serif">
-    <h3>Ilkin borc: @((decimal)(client.Debt - Model.TotalAmount) / 100) &#8380;</h3>
-    <h3>Ödənilən məbləğ: ________</h3>
-    <h3>Yekun borc: @((decimal)client.Debt / 100) &#8380;</h3>
+    <h3>İlkin borc: __________</h3>
+    <h3>Ödənilən məbləğ: __________</h3>
+    <h3>Yekun borc: __________</h3>
 </div>

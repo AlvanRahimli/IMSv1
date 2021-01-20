@@ -149,7 +149,7 @@ namespace IMSv1.Repositories
             return dbRes > 0;
         }
 
-        public async Task<bool> UpdateProduct(int userId, Product input)
+        public async Task<bool> UpdateProduct(int userId, ProductUpdateDto input)
         {
             var product = await _context.Products
                 .Include(p => p.ProductionPrices)
@@ -160,7 +160,7 @@ namespace IMSv1.Repositories
             product.StockCount = input.StockCount;
             product.ExpirationDate = input.ExpirationDate;
             product.ProductionDate = input.ProductionDate;
-            product.SalePrice = input.SalePrice;
+            product.SalePrice = (int)(input.SalePrice * 100);
             product.ProductionPrices.Add(new Price
             {
                 Value = input.ProductionPrices[0].Value,

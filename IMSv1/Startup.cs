@@ -31,7 +31,7 @@ namespace IMSv1
 
             services.AddDbContext<AnbarContext>(options =>
             {
-                options.UseSqlite(_config.GetConnectionString("MySql"));
+                options.UseMySql(_config.GetConnectionString("MySql"));
                 // options.UseMySql("Server=68.183.66.54;Database='AnbarDb';Uid=root;Pwd=01122001_Alvan;");
             });
             

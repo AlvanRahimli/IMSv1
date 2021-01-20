@@ -21,7 +21,8 @@ namespace IMSv1.Models
         public User Owner { get; set; }
         public List<Transaction_Product> TransactionProducts { get; set; }
 
-        [NotMapped] public decimal SalePriceFormatted => (decimal) SalePrice / 100;
+        [NotMapped] 
+        public decimal SalePriceFormatted => (decimal) SalePrice / 100;
 
         [NotMapped]
         public List<decimal> ProdPriceFormatted => ProductionPrices?.Select(pp => (decimal) pp.Value / 100).ToList();
