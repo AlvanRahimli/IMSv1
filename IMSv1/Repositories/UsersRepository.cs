@@ -80,5 +80,49 @@ namespace IMSv1.Repositories
             var dbRes = await _context.SaveChangesAsync();
             return dbRes > 0;
         }
+
+        public async Task<bool> AddClient(AddClientDto input, int userId)
+        {
+            if (input.AdditionType == "new")
+            {
+                var newUser = new User
+                {
+                    Name = input.ClientName,
+                    District = input.ClientDistrict,
+                    Contact = input.ClientPhone,
+                    Password = "12345",
+                    Role = Role.User
+                };
+                var addedUserId = await AddUser(newUser);
+                var client = new UserClient
+                {
+                    UserId = userId,
+                    ClientId = addedUserId,
+                    ClientName = input.ClientName,
+                    Debt = (int)(input.Debt * 100),
+                    LastSaleDate = input.LastSaleDate
+                };
+                await _context.UserClients.AddAsync(client);
+                var res = await _context.SaveChangesAsync();
+                return res > 0;
+            }
+
+            if (input.AdditionType == "existing")
+            {
+                var client = new UserClient
+                {
+                    UserId = userId,
+                    ClientId = input.ClientId,
+                    ClientName = "existing_user",
+                    Debt = (int)(input.Debt * 100),
+                    LastSaleDate = input.LastSaleDate
+                };
+                await _context.UserClients.AddAsync(client);
+                var res = await _context.SaveChangesAsync();
+                return res > 0;
+            }
+
+            return false;
+        }
     }
 }

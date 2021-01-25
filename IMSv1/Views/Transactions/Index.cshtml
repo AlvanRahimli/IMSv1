@@ -35,12 +35,12 @@
     {
         <tr>
             <th>@counter</th>
-            <td><a href="/Clients/@t.ToId">@t.To.Name</a></td>
-            <td><a href="/Clients/@t.FromId">@t.From.Name</a></td>
+            <td>@t.To.Name</td>
+            <td>@t.From.Name</td>
             <td>@((decimal)t.TotalAmount / 100) &#8380;</td>
             <td>@t.Date.ToString("dd MMM yyyy")</td>
-            <td><a asp-action="GetTransaction" asp-route-tId="@t.Id">@t.Description</a></td>
-            <td><a asp-action="GetTransaction" asp-route-tId="@t.Id">Keçid >></a></td>
+            <td>@t.Description</td>
+            <td><a asp-action="GetTransaction" asp-route-tId="@t.Id">Ətraflı >></a></td>
         </tr>
         counter++;
     }

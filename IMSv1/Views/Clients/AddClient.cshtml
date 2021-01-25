@@ -1,0 +1,98 @@
+@using IMSv1.Models.Dtos
+@model IMSv1.Models.AddClientDto
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewBag.Title = "Yeni Müştəri";
+    ViewData["clients_active"] = "active";
+    Layout = "_Layout";
+    var users = ViewData["users"] as List<ClientDto>;
+}
+
+<h2>Yeni Müştəri</h2>
+<form method="post" asp-action="AddClient">
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="newClientSelect">Seçin</label>
+                <select class="form-control" id="newClientSelect" asp-for="AdditionType">
+                    <option value="new">Yeni müştəri</option>
+                    <option value="existing">Sayt istifadəçisi</option>
+                </select>
+            </div>
+
+            <div id="newClient">
+                <div class="form-group">
+                    <label for="clientName">Müştərinin adı</label>
+                    <input type="text" id="clientName" asp-for="ClientName"
+                           class="form-control" placeholder="Müştərinin adı">
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="clientDebt">Müştərinin borcu</label>
+                        <input type="number" id="clientDebt" asp-for="Debt"
+                               class="form-control" placeholder="Borc" step="any">
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="lastSale">Son satışın tarixi</label>
+                        <input type="date" id="lastSale" asp-for="LastSaleDate" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="clientRayon">Rayon</label>
+                        <input type="text" id="clientRayon" asp-for="ClientDistrict"
+                               class="form-control" placeholder="Rayon daxil edin">
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="clientPhone">Əlaqə</label>
+                        <input type="text" id="clientPhone" asp-for="ClientPhone"
+                               class="form-control" placeholder="Əlaqə nömrəsi daxil edin">
+                    </div>
+                </div>
+            </div>
+
+            <div id="existingClient" style="display: none">
+                <div class="form-group">
+                    <label for="clientNames">Müştərinin adı</label>
+                    <select class="form-control" id="clientNames">
+                        @foreach (var user in users)
+                        {
+                            <option value="@user.Id">@user.Name (borc: @user.Debt)</option>
+                        }
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="e_clientDebt">Müştərinin borcu</label>
+                        <input type="number" id="e_clientDebt" asp-for="Debt"
+                               class="form-control" placeholder="Borc" step="any">
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="e_lastSale">Son satışın tarixi</label>
+                        <input type="date" id="e_lastSale" asp-for="LastSaleDate" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="e_clientRayon">Rayon</label>
+                        <input type="text" id="e_clientRayon" asp-for="ClientDistrict"
+                               class="form-control" placeholder="Rayon daxil edin">
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="e_clientPhone">Əlaqə</label>
+                        <input type="text" id="e_clientPhone" asp-for="ClientPhone"
+                               class="form-control" placeholder="Əlaqə nömrəsi daxil edin">
+                    </div>
+                </div>
+            </div>
+
+            <input type="submit" class="btn btn-primary" value="Əlavə et">
+        </div>
+    </div>
+</form>
+
+@section Scripts
+{
+    <script src="~/js/client.js"></script>
+}

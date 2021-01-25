@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using IMSv1.Extensions;
 using IMSv1.Models;
@@ -89,7 +90,8 @@ namespace IMSv1.Controllers
                 Packaging = product.Packaging,
                 ExpirationDate = product.ExpirationDate,
                 ProductionDate = product.ProductionDate,
-                ProductionPrices = product.ProductionPrices,
+                ProductionPrice = (decimal)product.ProductionPrices
+                    .OrderBy(p => p.AdditionDate).ToList()[0].Value / 100,
                 SalePrice = (decimal)product.SalePrice / 100,
                 StockCount = product.StockCount,
                 OwnerId = product.OwnerId

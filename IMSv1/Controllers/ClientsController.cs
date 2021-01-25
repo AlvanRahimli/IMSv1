@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using IMSv1.Extensions;
+using IMSv1.Models;
 using IMSv1.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +38,21 @@ namespace IMSv1.Controllers
             }
 
             return RedirectToAction("Error", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddClient()
+        {
+            var users = await _repo.GetUsers(HttpContext.GetUserId());
+            ViewData["users"] = users;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddClient(AddClientDto input)
+        {
+            var result = await _repo.AddClient(input, HttpContext.GetUserId());
+            return RedirectToAction(result ? "Success" : "Error", "Home");
         }
     }
 }

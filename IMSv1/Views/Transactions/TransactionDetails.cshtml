@@ -9,20 +9,20 @@
 }
 <a onclick="window.print()" class="btn btn-link">Çap et</a>
 <div style="text-align: center">
-    <h2>SATIŞ</h2>
+    <h3>SATIŞ</h3>
     <br>
-    <h3>Nömrə: @Model.Id</h3>
+    <h4>Nömrə: @Model.Id</h4>
 </div>
 <br>
 <br>
-<h3 style="float: right">@Model.Date.ToString("dd MMMM yyyy")</h3>
-<h2>@Model.From.Name</h2>
+<h4 style="float: right; font-family: 'Times New Roman', Arial, serif">@Model.Date.ToString("dd MMMM yyyy")</h4>
+<h3 style="font-family: 'Times New Roman', Arial, serif">@Model.From.Name</h3>
 <br>
-<h2>@Model.To.Name</h2>
+<h3 style="font-family: 'Times New Roman', Arial, serif">@Model.To.Name</h3>
 <br>
 <br>
 <br>
-<table class="table table-bordered table-striped" style="font-size: 1.8em">
+<table class="table table-bordered table-striped" style="font-size: 1.2em; font-family: 'Times New Roman', Arial, serif">
     <thead>
     <tr>
         <th scope="col">Malın Adı</th>
@@ -55,7 +55,7 @@
 
 <br>
 <br>
-<div style="font-family: 'Times New Roman',serif">
+<div style="font-family: 'Times New Roman', Arial, serif">
     <h3>İlkin borc: __________</h3>
     <h3>Ödənilən məbləğ: __________</h3>
     <h3>Yekun borc: __________</h3>

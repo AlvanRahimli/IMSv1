@@ -17,7 +17,7 @@
             <div class="form-group">
                 <label for="desc">Köçürmə haqqında</label>
                 <input type="text" id="desc" asp-for="Description"
-                       class="form-control" placeholder="Köçürmə haqqında" value="@("Mədaxil" + DateTime.Now.ToString("d MMM yyyy"))">
+                       class="form-control" placeholder="Köçürmə haqqında" value="@("Mədaxil " + DateTime.Now.ToString("d MMM yyyy"))">
             </div>
             
             <div class="form-group">
@@ -33,7 +33,6 @@
                     }
                 </select>
             </div>
-
 
             <div class="form-group">
                 <label for="pName">Məhsulun adı</label>

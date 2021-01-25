@@ -2,6 +2,6 @@ namespace IMSv1.Models
 {
     public enum TransactionType
     {
-        Addition, Sale
+        Addition, Sale, Return
     }
 }

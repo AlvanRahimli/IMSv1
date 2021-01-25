@@ -32,6 +32,10 @@ namespace IMSv1.Repositories
                 .Include(p => p.ProductionPrices)
                 .Where(p => p.OwnerId == userId)
                 .ToListAsync();
+            foreach (var product in products)
+            {
+                product.ProductionPrices = product.ProductionPrices.OrderByDescending(p => p.AdditionDate).ToList();
+            }
 
             return products;
         }
@@ -126,7 +130,6 @@ namespace IMSv1.Repositories
                 });
 
                 await _context.TransactionProducts.AddAsync(transactionProduct);
-                Console.WriteLine("ADDED AS EXISTING PRODUCT");
             }
             
             var dbRes = await _context.SaveChangesAsync();
@@ -154,6 +157,10 @@ namespace IMSv1.Repositories
             var product = await _context.Products
                 .Include(p => p.ProductionPrices)
                 .FirstOrDefaultAsync(p => p.Id == input.Id && p.OwnerId == userId);
+            if (product == null)
+            {
+                return false;
+            }
 
             product.Name = input.Name;
             product.Packaging = input.Packaging;
@@ -161,12 +168,9 @@ namespace IMSv1.Repositories
             product.ExpirationDate = input.ExpirationDate;
             product.ProductionDate = input.ProductionDate;
             product.SalePrice = (int)(input.SalePrice * 100);
-            product.ProductionPrices.Add(new Price
-            {
-                Value = input.ProductionPrices[0].Value,
-                AdditionDate = DateTime.Now,
-                ProductId = product.Id
-            });
+            product.ProductionPrices
+                .OrderBy(p => p.AdditionDate)
+                .ToList()[0].Value = (int) (input.ProductionPrice * 100);
 
             var dbRes = await _context.SaveChangesAsync();
             return dbRes > 0;

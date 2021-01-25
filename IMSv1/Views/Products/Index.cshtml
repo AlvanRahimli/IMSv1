@@ -20,16 +20,14 @@
     <tr>
         <th scope="col">#</th>
         <th scope="col">Malın Adı</th>
+        <th scope="col">Qablaşma</th>
         <th scope="col">Miqdarı</th>
         <th scope="col">Alış Qiymətləri</th>
         <th scope="col">Cəmi</th>
         <th scope="col">Satış Qiyməti</th>
         <th scope="col">Cəmi</th>
         <th scope="col">Son istifadə tarixi</th>
-        @if (HttpContextAccessor.HttpContext.User.IsInRole("Manager"))
-        {
-            <th scope="col">Əməliyyatlar</th>
-        }
+        <th scope="col">Əməliyyatlar</th>
     </tr>
     </thead>
     <tbody>
@@ -43,6 +41,7 @@
         <tr style="@css">
             <th scope="row">@counter</th>
             <td>@p.Name</td>
+            <td>@p.Packaging</td>
             <td>@p.StockCount</td>
             <td>
                 <select>
@@ -53,12 +52,13 @@
                     @foreach (var price in p.ProductionPrices)
                     {
                         <option value="@price.Id">
-                            @((decimal)price.Value / 100)&#8380; (@price.AdditionDate.ToString("dd MMM yyyy"))
+                            @((decimal)price.Value / 100) &#8380;  (@price.AdditionDate.ToString("dd MM yyyy"))
                         </option>
                     }
                 </select>
             </td>
-            <td>@((decimal)(p.ProductionPrices.OrderByDescending(pr => pr.AdditionDate).ToList()[0].Value)/100 * p.StockCount) &#8380;</td>
+            @* OrderByDescending(pr => pr.AdditionDate).ToList() *@
+            <td>@((decimal)p.ProductionPrices[0].Value/100 * p.StockCount) &#8380;</td>
             <td>@p.SalePriceFormatted &#8380;</td>
             <td>@p.TotalSalePrice &#8380;</td>
             <td>@p.ExpirationDate.ToString("dd MMMM yyyy")</td>
@@ -77,5 +77,15 @@
         </tr>
         counter++;
     }
-    </tbody>
+    <td>CƏMİ</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>Alış: @((decimal)Model.Sum(p => p.ProductionPrices[0].Value) / 100)</td>
+    <td></td>
+    <td>Satış: @((decimal)Model.Sum(p => p.SalePrice) / 100)</td>
+    <td></td>
+    <td></td>
+</tbody>
 </table>
