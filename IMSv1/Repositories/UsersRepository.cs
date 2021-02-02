@@ -99,7 +99,7 @@ namespace IMSv1.Repositories
                     UserId = userId,
                     ClientId = addedUserId,
                     ClientName = input.ClientName,
-                    Debt = (int)(input.Debt * 100),
+                    Debt = input.Debt,
                     LastSaleDate = input.LastSaleDate
                 };
                 await _context.UserClients.AddAsync(client);
@@ -114,7 +114,7 @@ namespace IMSv1.Repositories
                     UserId = userId,
                     ClientId = input.ClientId,
                     ClientName = "existing_user",
-                    Debt = (int)(input.Debt * 100),
+                    Debt = input.Debt,
                     LastSaleDate = input.LastSaleDate
                 };
                 await _context.UserClients.AddAsync(client);

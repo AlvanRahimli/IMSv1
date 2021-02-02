@@ -103,15 +103,14 @@ namespace IMSv1.Repositories
                 Date = DateTime.Now,
                 FromId = userId,
                 ToId = newTransaction.ClientId == 0 ? addedUserId : newTransaction.ClientId,
-                Type = TransactionType.Sale,
-                TotalAmount = newTransaction.Content.Sum(dto => (int) (dto.SalePrice * 100) * dto.Count),
+                TotalAmount = newTransaction.Content.Sum(dto => dto.SalePrice * dto.Count),
                 Content = newTransaction.Content
                     .Where(dto => dto != null)
                     .Select(dto => new Transaction_Product
                     {
                         ProductId = dto.ProductId,
                         Count = dto.Count,
-                        SalePrice = (int) (dto.SalePrice * 100)
+                        SalePrice = dto.SalePrice
                     }).ToList()
             };
 
@@ -133,8 +132,17 @@ namespace IMSv1.Repositories
                 Console.WriteLine("CLIENT WAS NULL");
                 return false;
             }
-            
-            client.Debt += transaction.TotalAmount;
+
+            if (newTransaction.Type == "return")
+            {
+                client.Debt -= transaction.TotalAmount;
+                transaction.Type = TransactionType.Return;
+            }
+            else
+            {
+                client.Debt += transaction.TotalAmount;
+                transaction.Type = TransactionType.Sale;
+            }
             client.LastSaleDate = DateTime.Now;
             foreach (var p in transaction.Content)
             {

@@ -13,8 +13,10 @@
 }
 
 <div style="float: right">
-    <a class="btn btn-secondary" 
-       asp-action="PostTransaction">&plus; Yeni Satış</a>
+    <a class="btn btn-danger disabled" 
+           asp-action="PostReturn">&CircleMinus; Vozvrat</a>
+    <a class="btn btn-success" 
+       asp-action="PostTransaction">&CirclePlus; Yeni Satış</a>
 </div>
 <h2>Satışlar</h2>
 
@@ -37,7 +39,7 @@
             <th>@counter</th>
             <td>@t.To.Name</td>
             <td>@t.From.Name</td>
-            <td>@((decimal)t.TotalAmount / 100) &#8380;</td>
+            <td>@t.TotalAmount &#8380;</td>
             <td>@t.Date.ToString("dd MMM yyyy")</td>
             <td>@t.Description</td>
             <td><a asp-action="GetTransaction" asp-route-tId="@t.Id">Ətraflı >></a></td>

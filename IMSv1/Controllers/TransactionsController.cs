@@ -70,5 +70,31 @@ namespace IMSv1.Controllers
 
             return RedirectToAction("Error", "Home");
         }
+        
+        [HttpGet]
+        public async Task<IActionResult> PostReturn()
+        {
+            var userId = HttpContext.GetUserId();
+            var products = await _productsRepository.GetAllProducts(userId);
+            ViewData["products"] = products;
+            var users = await _usersRepository.GetUsers(userId);
+            ViewData["users"] = users;
+            Console.WriteLine(users.Count);
+            return View();
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> PostReturn(NSTransactionDto newTransaction)
+        {
+            var userId = HttpContext.GetUserId();
+            var isSuccessful = await _repo.AddTransaction(newTransaction, userId);
+
+            if (isSuccessful)
+            {
+                return RedirectToAction("Success", "Home");
+            }
+
+            return RedirectToAction("Error", "Home");
+        }
     }
 }

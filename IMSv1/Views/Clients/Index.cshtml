@@ -31,7 +31,7 @@
             <td>@client.Client.Name</td>
             <td>@client.Client.District</td>
             <td>@client.Client.Contact</td>
-            <td>@((decimal)client.Debt / 100) &#8380;</td>
+            <td>@(client.Debt) &#8380;</td>
             <td>@client.LastSaleDate.ToString("dd MMM yyyy")</td>
             <td>
                 <form method="post" asp-action="AddPayment" asp-controller="Clients"

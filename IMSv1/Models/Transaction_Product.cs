@@ -11,8 +11,9 @@ namespace IMSv1.Models
         public Product Product { get; set; }
 
         public int Count { get; set; }
-        public int SalePrice { get; set; }
+        [Column(TypeName = "decimal(10,2)")]
+        public decimal SalePrice { get; set; }
 
-        [NotMapped] public int TotalPrice => Count * SalePrice;
+        [NotMapped] public decimal TotalPrice => Count * SalePrice;
     }
 }

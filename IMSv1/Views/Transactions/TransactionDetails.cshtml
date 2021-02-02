@@ -38,9 +38,9 @@
         <tr>
             <td>@p.Product.Name</td>
             <td>@p.Product.Packaging</td>
-            <td>@((decimal) p.SalePrice / 100) &#8380</td>
+            <td>@(p.SalePrice) &#8380</td>
             <td>@p.Count</td>
-            <td>@((decimal) (p.Count * p.SalePrice) / 100) &#8380</td>
+            <td>@(p.Count * p.SalePrice) &#8380</td>
         </tr>
     }
     <tr>
@@ -48,7 +48,7 @@
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-        <th colspan="4">@((decimal)Model.Content.Sum(tp => tp.TotalPrice) / 100) &#8380</th>
+        <th colspan="4">@(Model.Content.Sum(tp => tp.TotalPrice)) &#8380</th>
     </tr>
     </tbody>
 </table>

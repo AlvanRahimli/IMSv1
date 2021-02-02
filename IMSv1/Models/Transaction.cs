@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IMSv1.Models
 {
@@ -7,7 +8,8 @@ namespace IMSv1.Models
     {
         public int Id { get; set; }
 
-        public int TotalAmount { get; set; }
+        [Column(TypeName = "decimal(10,2)")]
+        public decimal TotalAmount { get; set; }
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public TransactionType Type { get; set; }

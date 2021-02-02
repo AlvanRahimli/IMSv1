@@ -52,14 +52,14 @@
                     @foreach (var price in p.ProductionPrices)
                     {
                         <option value="@price.Id">
-                            @((decimal)price.Value / 100) &#8380;  (@price.AdditionDate.ToString("dd MM yyyy"))
+                            @(price.Value) &#8380;  (@price.AdditionDate.ToString("dd MM yyyy"))
                         </option>
                     }
                 </select>
             </td>
             @* OrderByDescending(pr => pr.AdditionDate).ToList() *@
-            <td>@((decimal)p.ProductionPrices[0].Value/100 * p.StockCount) &#8380;</td>
-            <td>@p.SalePriceFormatted &#8380;</td>
+            <td>@(p.ProductionPrices[0].Value * p.StockCount) &#8380;</td>
+            <td>@p.SalePrice &#8380;</td>
             <td>@p.TotalSalePrice &#8380;</td>
             <td>@p.ExpirationDate.ToString("dd MMMM yyyy")</td>
             <td>
@@ -77,14 +77,14 @@
         </tr>
         counter++;
     }
-    <td>CƏMİ</td>
+    <th>Yekun</th>
     <td></td>
     <td></td>
     <td></td>
     <td></td>
-    <td>Alış: @((decimal)Model.Sum(p => p.ProductionPrices[0].Value) / 100)</td>
+    <th>Cəmi Alış: @(Model.Sum(p => p.ProductionPrices[0].Value * p.StockCount))</th>
     <td></td>
-    <td>Satış: @((decimal)Model.Sum(p => p.SalePrice) / 100)</td>
+    <th>Cəmi Satış: @(Model.Sum(p => p.SalePrice * p.StockCount))</th>
     <td></td>
     <td></td>
 </tbody>

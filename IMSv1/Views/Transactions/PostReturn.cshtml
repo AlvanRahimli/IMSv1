@@ -12,23 +12,23 @@
     var products = ViewData["products"] as List<Product>;
 }
 
-<h2>Yeni Satış</h2>
+<h2>Vozvrat</h2>
 
-<form method="post" asp-action="PostTransaction"
+<form method="post" asp-action="PostReturn"
       onsubmit="return confirm('Əməliyyatı həyata keçirmək istədiyinizə əminsinizmi?')">
-    <input type="hidden" asp-for="Type" value="transaction">
+    <input type="hidden" asp-for="Type" value="return">
     <div class="row">
         <div class="col-6">
             <h3>Detallar</h3>
             <div class="form-group">
-                <label for="desc">Satış haqqında</label>
+                <label for="desc">Geri qayıtma haqqında</label>
                 <input id="desc" asp-for="Description" class="form-control"
-                       value="@("Satış " + DateTime.Now.ToString("dd MMM yyyy"))">
+                       value="@("Vozvrat " + DateTime.Now.ToString("dd MMM yyyy"))">
             </div>
             <div class="form-group">
-                <label for="client">Müştəri</label>
-                <select id="client" asp-for="ClientId" class="form-control">
-                    <option value="0">Yeni Müştəri</option>
+                <label for="client_vozvrat">Müştəri</label>
+                <select id="client_vozvrat" asp-for="ClientId" class="form-control">
+                    <option value="0">Seçin</option>
                     @if (users != null)
                     {
                         @foreach (var u in users)
@@ -38,27 +38,11 @@
                     }
                 </select>
             </div>
-            <div id="nameDiv">
-                <div class="form-group" style="display: block">
-                    <label for="clientName">Müştəri adı</label>
-                    <input id="clientName" asp-for="ClientName" class="form-control">
-                </div>
-                <div class="row">
-                    <div class="col-6 form-group">
-                        <label for="clientDist">Rayon</label>
-                        <input type="text" asp-for="ClientDistrict" class="form-control" id="clientDist">
-                    </div>
-                    <div class="col-6 form-group">
-                        <label for="clientContact">Əlaqə</label>
-                        <input type="text" asp-for="ClientPhone" class="form-control" id="clientContact">
-                    </div>
-                </div>
-            </div>
             <hr>
-            <input type="submit" value="&#10004; Satışı təstiqlə" class="btn btn-primary">
+            <input type="submit" value="&#10004; Təstiqlə" class="btn btn-primary">
         </div>
         <div class="col-6">
-            <h3>Satılan məhsullar</h3>
+            <h3>Geri qaytarılan məhsullar</h3>
             <div id="productsList">
                 <div id="productCard">
                     <div class="card" style="margin-top: 20px;">

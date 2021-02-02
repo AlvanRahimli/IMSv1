@@ -57,36 +57,36 @@ namespace IMSv1.Repositories
             return product.OwnerId == userId ? product : null;
         }
 
-        public async Task<bool> AddProduct(ATITransactionDto tATITransactionDto, int userId, bool isNew)
+        public async Task<bool> AddProduct(ATITransactionDto tAtiTransactionDto, int userId, bool isNew)
         {
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.Id == userId);
             if (user == null)
                 return false;
 
-            var price = (int) (tATITransactionDto.Content.ProductionPrice * 100);
-            var salePrice = (int) (tATITransactionDto.Content.SalePrice * 100);
+            var price = tAtiTransactionDto.Content.ProductionPrice;
+            var salePrice = tAtiTransactionDto.Content.SalePrice;
 
             var transaction = new Transaction
             {
                 Date = DateTime.Now,
-                Description = tATITransactionDto.Description,
+                Description = tAtiTransactionDto.Description,
                 FromId = userId,
                 ToId = userId,
                 Type = TransactionType.Addition,
-                TotalAmount = tATITransactionDto.Content.Count * price
+                TotalAmount = tAtiTransactionDto.Content.Count * price
             };
 
             if (isNew)
             {
                 var product = new Product
                 {
-                    Name = tATITransactionDto.Content.Name,
-                    Packaging = tATITransactionDto.Content.Packaging,
-                    ExpirationDate = tATITransactionDto.Content.ExpirationDate,
-                    ProductionDate = tATITransactionDto.Content.ProductionDate,
+                    Name = tAtiTransactionDto.Content.Name,
+                    Packaging = tAtiTransactionDto.Content.Packaging,
+                    ExpirationDate = tAtiTransactionDto.Content.ExpirationDate,
+                    ProductionDate = tAtiTransactionDto.Content.ProductionDate,
                     SalePrice = salePrice,
-                    StockCount = tATITransactionDto.Content.Count,
+                    StockCount = tAtiTransactionDto.Content.Count,
                     OwnerId = userId,
                     ProductionPrices = new List<Price>
                     {
@@ -101,7 +101,7 @@ namespace IMSv1.Repositories
                 {
                     Transaction = transaction,
                     Product = product,
-                    Count = tATITransactionDto.Content.Count,
+                    Count = tAtiTransactionDto.Content.Count,
                     SalePrice = salePrice
                 };
 
@@ -113,16 +113,16 @@ namespace IMSv1.Repositories
                 var transactionProduct = new Transaction_Product
                 {
                     Transaction = transaction,
-                    ProductId = tATITransactionDto.Content.ProductId,
-                    Count = tATITransactionDto.Content.Count,
+                    ProductId = tAtiTransactionDto.Content.ProductId,
+                    Count = tAtiTransactionDto.Content.Count,
                     SalePrice = salePrice
                 };
 
                 var product = await _context.Products
                     .Include(p => p.ProductionPrices)
-                    .FirstOrDefaultAsync(p => p.Id == tATITransactionDto.Content.ProductId);
-                product.StockCount += tATITransactionDto.Content.Count;
-                product.ProductionPrices.Add(new Price()
+                    .FirstOrDefaultAsync(p => p.Id == tAtiTransactionDto.Content.ProductId);
+                product.StockCount += tAtiTransactionDto.Content.Count;
+                product.ProductionPrices.Add(new Price
                 {
                     ProductId = product.Id,
                     Value = price,
@@ -167,10 +167,10 @@ namespace IMSv1.Repositories
             product.StockCount = input.StockCount;
             product.ExpirationDate = input.ExpirationDate;
             product.ProductionDate = input.ProductionDate;
-            product.SalePrice = (int)(input.SalePrice * 100);
+            product.SalePrice = input.SalePrice;
             product.ProductionPrices
-                .OrderBy(p => p.AdditionDate)
-                .ToList()[0].Value = (int) (input.ProductionPrice * 100);
+                .OrderByDescending(p => p.AdditionDate)
+                .ToList()[0].Value = input.ProductionPrice;
 
             var dbRes = await _context.SaveChangesAsync();
             return dbRes > 0;

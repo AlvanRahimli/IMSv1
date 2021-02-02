@@ -6,6 +6,7 @@ function newProduct(num) {
     element.appendTo("#productsList");
     
     element.find("#delete_btn").attr("onclick", "deleteCard(" + num + ")");
+    element.find("#productId").attr("data-number", num);
     
     $("#newProductBtn").attr("onclick", "newProduct(" + (num+1) + ")");
 }
@@ -24,3 +25,10 @@ $("#client").change(function () {
         $("#nameDiv").css("display", "none")
     }
 })
+
+$("#productId").change(function () {
+    let selId = $(this).children("option:selected").getAttribute("data-price");
+    let number = this.getAttribute("data-number");
+
+    
+});

@@ -12,5 +12,7 @@ namespace IMSv1.Models.Dtos
         public string ClientDistrict { get; set; }
         public string ClientPhone { get; set; }
         public List<TransactionContentDto> Content { get; set; }
+
+        public string Type { get; set; }
     }
 }

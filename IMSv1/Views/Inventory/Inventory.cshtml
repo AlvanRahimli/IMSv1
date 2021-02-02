@@ -16,8 +16,8 @@
     <tr>
         <th scope="col">#</th>
         <th scope="col">Malın Adı</th>
-        <th scope="col">Miqdarı</th>
         <th scope="col">Qablaşma</th>
+        <th scope="col">Miqdarı</th>
     </tr>
     </thead>
     <tbody>
@@ -25,9 +25,9 @@
     {
         <tr>
             <th scope="row">@counter</th>
-            <td><a asp-action="Details" asp-controller="Products">@p.Name</a></td>
-            <td>@p.StockCount</td>
+            <td><a asp-action="UpdateProduct" asp-controller="Products" asp-route-id="@p.Id">@p.Name</a></td>
             <td>@p.Packaging</td>
+            <td>@p.StockCount</td>
         </tr>
         counter++;
     }

@@ -7,8 +7,8 @@
 }
 
 <h2>Düzəliş et</h2>
-
-<form method="post" asp-controller="Products" asp-action="UpdateProduct"
+<div class="col-lg-6 col-md-12 col-sm-12">
+    <form method="post" asp-controller="Products" asp-action="UpdateProduct"
       onsubmit="return confirm('Əməliyyatı həyata keçirmək istədiyinizə əminsinizmi?')">
     <div class="form-group">
         <label for="pName">Məhsul adı: </label>
@@ -52,10 +52,11 @@
         </div>
         <div class="form-group col-6">
             <label for="pSalePrice">Satış qiyməti (qəpiklə)</label>
-            <input type="number" step="0.01" id="pSalePrice" class="form-control" 
+            <input type="number" step="any" id="pSalePrice" class="form-control" 
                    asp-for="SalePrice" value="@Model.SalePrice">
         </div>
     </div>
 
     <input type="submit" value="Yadda saxla">
 </form>
+</div>

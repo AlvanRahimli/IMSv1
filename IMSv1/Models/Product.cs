@@ -12,7 +12,8 @@ namespace IMSv1.Models
         public string Packaging { get; set; }
         public int StockCount { get; set; }
         public List<Price> ProductionPrices { get; set; }
-        public int SalePrice { get; set; }
+        [Column(TypeName = "decimal(10,2)")]
+        public decimal SalePrice { get; set; }
         public int OwnerId { get; set; }
 
         public DateTime ProductionDate { get; set; }
@@ -22,14 +23,14 @@ namespace IMSv1.Models
         public List<Transaction_Product> TransactionProducts { get; set; }
 
         [NotMapped] 
-        public decimal SalePriceFormatted => (decimal) SalePrice / 100;
+        public decimal SalePriceFormatted => SalePrice;
 
         [NotMapped]
-        public List<decimal> ProdPriceFormatted => ProductionPrices?.Select(pp => (decimal) pp.Value / 100).ToList();
+        public List<decimal> ProdPriceFormatted => ProductionPrices?.Select(pp => pp.Value).ToList();
         
         // TODO:
         [NotMapped] public int TotalProductionPrice => StockCount;
 
-        [NotMapped] public decimal TotalSalePrice => (decimal)StockCount * SalePrice / 100;
+        [NotMapped] public decimal TotalSalePrice => StockCount * SalePrice;
     }
 }

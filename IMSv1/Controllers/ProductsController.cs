@@ -90,9 +90,9 @@ namespace IMSv1.Controllers
                 Packaging = product.Packaging,
                 ExpirationDate = product.ExpirationDate,
                 ProductionDate = product.ProductionDate,
-                ProductionPrice = (decimal)product.ProductionPrices
-                    .OrderBy(p => p.AdditionDate).ToList()[0].Value / 100,
-                SalePrice = (decimal)product.SalePrice / 100,
+                ProductionPrice = product.ProductionPrices
+                    .OrderByDescending(p => p.AdditionDate).ToList()[0].Value,
+                SalePrice = product.SalePrice,
                 StockCount = product.StockCount,
                 OwnerId = product.OwnerId
             };
